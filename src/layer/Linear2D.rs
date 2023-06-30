@@ -6,7 +6,7 @@ use rand::prelude::Distribution;
 use rand::distributions::Uniform;
 use ndarray::{self, Array2, Axis};
 
-struct Linear{
+pub struct Linear2D{
     mat_w : Box<Array2<f32>>,
     mat_b : Box<Array2<f32>>,
     rc_x  : Box<Array2<f32>>,
@@ -14,7 +14,7 @@ struct Linear{
     rc_b  : Box<Array2<f32>>,
 }
 
-impl Linear{
+impl Linear2D{
     fn new(inputsize : usize,outputsize : usize) -> Self{
         let mut rng: rand::rngs::ThreadRng = rand::thread_rng();
         let uniform=Uniform::new(0.0,1.0);
@@ -40,7 +40,7 @@ fn batch_mul(x : &Array2<f32>,f : fn(w : ArrayView1<f32>)->Array2<f32>,outputsiz
 }
 
 // 大小永远都是两维的，因为我们要实现转置操作
-impl Forward<Array2<f32>> for Linear{
+impl Forward<Array2<f32>> for Linear2D{
     fn forward(&mut self, x:&Array2<f32>)-> Array2<f32> {
         self.rc_x = Box::new(x.clone());
         // batch_mul(x, |x|(self.mat_w.dot(&x)+&*self.mat_b), self.mat_w.shape()[0])
@@ -58,7 +58,7 @@ impl Forward<Array2<f32>> for Linear{
     }
 }
 
-impl Backward<Array2<f32>> for Linear{
+impl Backward<Array2<f32>> for Linear2D{
     fn backward(&mut self,x : &Array2<f32>)->Array2<f32>{
         let x_1 = x.map_axis(Axis(1), |x| x);
         let x_2= self.rc_x.map_axis(Axis(1), |x| x);
@@ -87,7 +87,6 @@ impl Backward<Array2<f32>> for Linear{
             }
         }
         self.rc_b = Box::new(tmp / (x.shape()[0] as f32));
-
         let source = x.map_axis(Axis(1),|x|self.mat_w.t().dot(&x));
         let mut target = Array2::<f32>::zeros((x.shape()[0],self.mat_w.shape()[0]));
         for (i,values) in source.iter().enumerate(){

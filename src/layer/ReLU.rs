@@ -2,7 +2,7 @@ use super::Forward;
 use super::Backward;
 use ndarray::{self, Array2};
 
-struct ReLU{
+pub struct ReLU{
     rc_x : Box<Array2<f32>>,
 }
 

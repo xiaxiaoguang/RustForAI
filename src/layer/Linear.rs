@@ -5,7 +5,7 @@ use rand::prelude::Distribution;
 use rand::distributions::Uniform;
 use ndarray::{self, Array2};
 
-struct Linear{
+pub struct Linear{
     mat_w : Box<Array2<f32>>,
     mat_b : Box<Array2<f32>>,
     rc_x  : Box<Array2<f32>>,
