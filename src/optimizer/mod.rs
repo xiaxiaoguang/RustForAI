@@ -21,6 +21,6 @@ impl Optim
         }
     }
     fn one_step(&mut self){
-        self.model.sgd(opt,self.lr,self.moment)
+        self.model.sgd(self.model.lastout(),self.lr,self.moment)
     }
 }

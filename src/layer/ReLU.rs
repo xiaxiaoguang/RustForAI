@@ -39,4 +39,10 @@ impl Backward<Array2<f32>> for ReLU {
             }
         )
     }
+    fn sgd(&mut self,lr : f32,mm : f32) {
+        return ;
+    }
+    fn outrc(&self) -> Array2<f32> {
+        (*self.rc_x).clone()
+    }
 }

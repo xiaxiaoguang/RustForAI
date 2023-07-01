@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use super::Forward;
 use super::Backward;
 
@@ -40,4 +42,11 @@ impl Backward<Array2<f32>> for Linear{
         self.rc_b = Box::new(x.clone());
         self.mat_w.t().dot(x)
     }
+    fn sgd(&mut self,lr : f32,mm : f32) {
+        self.mat_w = Box::new(*self.mat_w * mm + *self.rc_w * lr * (1.0-mm));
+        self.mat_b = Box::new(*self.mat_b * mm + *self.rc_b * lr * (1.0-mm));
+    }
+    fn outrc(&self) -> Array2<f32> {
+        (*self.rc_x).clone()
+    }    
 }

@@ -25,10 +25,14 @@ impl Model
         }
         a
     }
-    fn sgd(&mut self,a :U,lr : f32,mm : f32){
+    pub fn lastout(&self)->Array2<f32>{
+        self.list[self.list.len()-1].outrc()
+    }
+    pub fn sgd(&mut self,a :Array2<f32>,lr : f32,mm : f32){
 
         for i in self.list.iter_mut(){
-            
+            i.backward(&a);
+            i.sgd(lr,mm);
         }
     }
 }
