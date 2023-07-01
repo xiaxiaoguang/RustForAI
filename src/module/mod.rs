@@ -28,10 +28,9 @@ impl Model
     pub fn lastout(&self)->Array2<f32>{
         self.list[self.list.len()-1].outrc()
     }
-    pub fn sgd(&mut self,a :Array2<f32>,lr : f32,mm : f32){
-
+    pub fn sgd(&mut self,mut opt : Array2<f32>,lr : f32,mm : f32){
         for i in self.list.iter_mut(){
-            i.backward(&a);
+            opt = i.backward(&opt);
             i.sgd(lr,mm);
         }
     }

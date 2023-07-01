@@ -1,5 +1,7 @@
 use std::marker::PhantomData;
 
+use ndarray::Array2;
+
 use super::module::Model;
 use super::layer::Backward;
 use super::layer::Forward;
@@ -20,7 +22,7 @@ impl Optim
             moment: p,
         }
     }
-    fn one_step(&mut self){
-        self.model.sgd(self.model.lastout(),self.lr,self.moment)
+    fn one_step(&mut self,a : Array2<f32>){
+        self.model.sgd(a,self.lr,self.moment)
     }
 }
