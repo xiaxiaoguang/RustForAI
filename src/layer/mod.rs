@@ -3,11 +3,13 @@ use ndarray::Array2;
 mod Linear;
 mod ReLU;
 mod Linear2D;
+mod Softmax;
 
 pub enum Layer {
     Linear(Linear::Linear),
     ReLU(ReLU::ReLU),
     Linear2D(Linear2D::Linear2D),
+    Softmax(Softmax::Softmax),
 }
 
 pub trait Forward<T>{
